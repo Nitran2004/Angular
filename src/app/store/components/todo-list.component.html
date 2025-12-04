@@ -1,0 +1,39 @@
+<div class="todo-container">
+  <h1>🚀 Mi Lista de Tareas con NgRx</h1>
+  
+  <div class="todo-input">
+    <input 
+      type="text" 
+      [(ngModel)]="newTodoText"
+      (keyup.enter)="addTodo()"
+      placeholder="Escribe una nueva tarea..."
+    />
+    <button (click)="addTodo()">Agregar</button>
+  </div>
+
+  <div class="todo-stats">
+    <p>📊 Total de tareas: {{ todoCount$ | async }}</p>
+  </div>
+
+  <ul class="todo-list">
+    <li *ngFor="let todo of todos$ | async" 
+        [class.completed]="todo.completed">
+      
+      <input 
+        type="checkbox" 
+        [checked]="todo.completed"
+        (change)="toggleTodo(todo.id)"
+      />
+      
+      <span>{{ todo.text }}</span>
+      
+      <button class="delete-btn" (click)="deleteTodo(todo.id)">
+        🗑️ Eliminar
+      </button>
+    </li>
+  </ul>
+
+  <div *ngIf="(todoCount$ | async) === 0" class="empty-state">
+    <p>✨ No hay tareas. ¡Agrega una para empezar!</p>
+  </div>
+</div>
